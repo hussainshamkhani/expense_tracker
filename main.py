@@ -10,9 +10,15 @@ from openpyxl.styles import Font, Alignment, PatternFill
 from fastapi.responses import StreamingResponse
 from io import BytesIO
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:Ta123456789@localhost/expenses")
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment is not set")
+
 engine = create_async_engine(DATABASE_URL)
 
 
